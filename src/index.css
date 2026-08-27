@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-tactical-bg: #080A0B;
+    --color-tactical-dark: #101214;
+    --color-tactical-surface: #151719;
+    --color-tactical-card: #181B1E;
+    --color-tactical-orange: #F59E0B;
+    --color-tactical-red: #E50914;
+    --color-tactical-yellow: #FFD166;
+    --color-tactical-green: #22C55E;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: #080A0B;
+    color: #F5F5F5;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom tactical scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0D0F11;
+    border-left: 1px solid #1E2226;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #2A2E33;
+    border-radius: 2px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #F59E0B;
+  }
+}
+
+/* Tactical HUD clipped corners and styling */
+.hud-clip {
+  clip-path: polygon(
+    0 12px,
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+}
+
+.hud-clip-tl-br {
+  clip-path: polygon(
+    0 16px,
+    16px 0,
+    100% 0,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    0 100%
+  );
+}
+
+.hud-clip-tr-bl {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 16px) 0,
+    100% 16px,
+    100% 100%,
+    16px 100%,
+    0 calc(100% - 16px)
+  );
+}
+
+.hud-clip-btn {
+  clip-path: polygon(
+    0 8px,
+    8px 0,
+    100% 0,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0 100%
+  );
+}
+
+/* Tactical Corner Brackets Overlay */
+.hud-bracket {
+  position: relative;
+}
+
+.hud-bracket::before,
+.hud-bracket::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.hud-bracket::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid #F59E0B;
+  border-left: 2px solid #F59E0B;
+}
+
+.hud-bracket::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid #F59E0B;
+  border-right: 2px solid #F59E0B;
+}
+
+.hud-bracket:hover::before,
+.hud-bracket:hover::after {
+  width: 18px;
+  height: 18px;
+}
+
+/* Red HUD bracket variation */
+.hud-bracket-red::before {
+  top: 0;
+  left: 0;
+  border-top: 2px solid #E50914;
+  border-left: 2px solid #E50914;
+}
+
+.hud-bracket-red::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid #E50914;
+  border-right: 2px solid #E50914;
+}
+
+/* Scanline and CRT overlay effects */
+.tactical-scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.25)
+  );
+  background-size: 100% 4px;
+}
+
+.tactical-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(245, 158, 11, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 158, 11, 0.035) 1px, transparent 1px);
+}
+
+.tactical-dots-bg {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(245, 158, 11, 0.1) 1px, transparent 0);
+}
+
+/* Glow & Text Shadows */
+.text-glow-orange {
+  text-shadow: 0 0 12px rgba(245, 158, 11, 0.6), 0 0 24px rgba(245, 158, 11, 0.3);
+}
+
+.text-glow-red {
+  text-shadow: 0 0 12px rgba(229, 9, 20, 0.6), 0 0 24px rgba(229, 9, 20, 0.3);
+}
+
+.text-glow-green {
+  text-shadow: 0 0 12px rgba(34, 197, 94, 0.6), 0 0 24px rgba(34, 197, 94, 0.3);
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
