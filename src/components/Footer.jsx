@@ -1,133 +1,199 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
-  Crosshair, 
+  ArrowRight, 
   Mail, 
-  ChevronUp 
+  Phone, 
+  MapPin, 
+  CheckCircle2, 
+  Sparkles 
 } from 'lucide-react';
-import { Github, Linkedin } from './Icons';
-import { soundManager } from '../utils/soundEffects';
+import BrandLogo from './BrandLogo';
+import { InstagramIcon, LinkedinIcon, FacebookIcon, YoutubeIcon } from './SocialIcons';
 
 export default function Footer() {
-  const scrollToTop = () => {
-    soundManager.playConfirm();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (email && email.includes('@')) {
+      setSubscribed(true);
+      setEmail('');
+    }
   };
 
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'About Us', path: '/about' },
+    { name: 'Services', path: '/services' },
+    { name: 'Our Work', path: '/portfolio' },
+    { name: 'Contact Us', path: '/contact' },
+  ];
+
+  const serviceLinks = [
+    { name: 'Social Media Marketing', path: '/services#social-media-marketing' },
+    { name: 'Performance Marketing', path: '/services#performance-marketing' },
+    { name: 'SEO & Search Authority', path: '/services#seo' },
+    { name: 'Branding & Creative', path: '/services#branding-creative' },
+    { name: 'Website Development', path: '/services#website-development' },
+    { name: 'Content Marketing', path: '/services#content-marketing' },
+    { name: 'Google & Meta Ads', path: '/services#google-meta-ads' },
+    { name: 'Marketing Strategy', path: '/services#marketing-strategy' },
+  ];
+
+  const socialLinks = [
+    { name: 'Instagram', icon: InstagramIcon, href: 'https://instagram.com' },
+    { name: 'LinkedIn', icon: LinkedinIcon, href: 'https://linkedin.com' },
+    { name: 'Facebook', icon: FacebookIcon, href: 'https://facebook.com' },
+    { name: 'YouTube', icon: YoutubeIcon, href: 'https://youtube.com' },
+  ];
+
   return (
-    <footer className="relative bg-[#060809] border-t border-zinc-800 text-zinc-400 font-mono text-xs overflow-hidden">
-      
-      {/* Top Accent Light line */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
+    <footer className="bg-brand-deep text-slate-300 pt-16 lg:pt-20 pb-10 border-t border-brand-800/60 relative overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-forest/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-10 w-96 h-96 bg-brand-mint/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        
-        {/* Main Footer Row */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center justify-between pb-8 border-b border-zinc-800/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-brand-800/80">
           
-          {/* Brand & Motto: PARTH NAGARKAR & BUILD • CREATE • LEVEL UP */}
-          <div className="md:col-span-5 space-y-2">
-            <div className="flex items-center gap-2.5">
-              <div className="w-6 h-6 rounded-xs bg-[#151719] border border-amber-500/60 flex items-center justify-center">
-                <Crosshair className="w-3.5 h-3.5 text-amber-500" />
-              </div>
-              <span className="font-display font-black text-lg sm:text-xl text-white tracking-[0.14em] text-glow-orange uppercase">
-                PARTH NAGARKAR
-              </span>
-            </div>
-
-            <p className="font-display font-bold text-xs text-amber-400 tracking-[0.25em] uppercase">
-              BUILD • CREATE • LEVEL UP
+          {/* Column 1: Brand Info (4 cols) */}
+          <div className="lg:col-span-4 flex flex-col space-y-4">
+            <BrandLogo inverted={true} />
+            
+            <p className="text-slate-300/80 text-sm leading-relaxed max-w-sm mt-2">
+              Grace & Grow is a modern digital marketing agency that helps ambitious businesses build strong brands, reach their target audience, generate qualified leads, and scale their digital footprint.
             </p>
+
+            {/* Direct Contact Details */}
+            <div className="space-y-2.5 pt-2 text-xs sm:text-sm text-slate-300/90">
+              <a href="mailto:hello@graceandgrow.com" className="flex items-center gap-2.5 hover:text-brand-300 transition-colors">
+                <Mail className="w-4 h-4 text-brand-mint flex-shrink-0" />
+                <span>hello@graceandgrow.com</span>
+              </a>
+              <div className="flex items-center gap-2.5 text-slate-300/90">
+                <Phone className="w-4 h-4 text-brand-mint flex-shrink-0" />
+                <span>+91 98765 43210</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-slate-300/90">
+                <MapPin className="w-4 h-4 text-brand-mint flex-shrink-0" />
+                <span>Mumbai / Bengaluru, India</span>
+              </div>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-2.5 pt-3">
+              {socialLinks.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.name}
+                    className="w-9 h-9 rounded-lg bg-brand-spruce border border-brand-700/60 flex items-center justify-center text-slate-300 hover:text-brand-mint hover:border-brand-mint/50 hover:bg-brand-800 transition-all duration-200"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                );
+              })}
+            </div>
           </div>
 
-          {/* System Telemetry */}
-          <div className="md:col-span-4 space-y-1.5 text-[11px] text-zinc-400 p-3.5 bg-[#0D0F11] border border-zinc-800/80 rounded">
-            <div className="flex items-center justify-between">
-              <span>SYSTEM STATUS:</span>
-              <span className="text-emerald-400 font-bold flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                ONLINE &amp; OPERATIONAL
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>EMAIL:</span>
-              <a
-                href="mailto:nagarkarparth013@gmail.com"
-                className="text-amber-400 hover:underline font-mono truncate"
-              >
-                nagarkarparth013@gmail.com
-              </a>
-            </div>
+          {/* Column 2: Navigation Links (2 cols) */}
+          <div className="lg:col-span-2">
+            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-brand-mint pl-2.5">
+              Navigation
+            </h3>
+            <ul className="space-y-2.5 text-sm">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.path}
+                    className="text-slate-300/80 hover:text-brand-mint transition-colors inline-flex items-center gap-1.5 group"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-mint/40 group-hover:bg-brand-mint group-hover:scale-125 transition-all" />
+                    <span>{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Social Links & Back to Top */}
-          <div className="md:col-span-3 flex flex-col sm:items-end gap-3">
-            <div className="flex items-center gap-2">
-              <a
-                href="https://github.com/NagarkarParth"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => soundManager.playClick()}
-                onMouseEnter={() => soundManager.playHover()}
-                aria-label="GitHub Profile"
-                className="p-2.5 bg-[#151719] hover:bg-[#1C1F23] border border-zinc-800 hover:border-amber-500/60 rounded text-zinc-300 hover:text-white transition-all"
-              >
-                <Github className="w-4 h-4" />
-              </a>
+          {/* Column 3: Services Directory (3 cols) */}
+          <div className="lg:col-span-3">
+            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-brand-mint pl-2.5">
+              Our Services
+            </h3>
+            <ul className="space-y-2.5 text-sm">
+              {serviceLinks.map((service) => (
+                <li key={service.name}>
+                  <Link
+                    to={service.path}
+                    className="text-slate-300/80 hover:text-brand-mint transition-colors inline-block"
+                  >
+                    {service.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-              <a
-                href="https://www.linkedin.com/in/parth-nagarkar"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => soundManager.playClick()}
-                onMouseEnter={() => soundManager.playHover()}
-                aria-label="LinkedIn Profile"
-                className="p-2.5 bg-[#151719] hover:bg-[#1C1F23] border border-zinc-800 hover:border-amber-500/60 rounded text-zinc-300 hover:text-white transition-all"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
+          {/* Column 4: Newsletter & Growth Insights (3 cols) */}
+          <div className="lg:col-span-3">
+            <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-4 border-l-2 border-brand-mint pl-2.5">
+              Growth Insights
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300/80 leading-relaxed mb-4">
+              Get our weekly breakdown of high-ROI marketing strategies, paid ad teardowns, and growth frameworks.
+            </p>
 
-              <a
-                href="mailto:nagarkarparth013@gmail.com"
-                onClick={() => soundManager.playClick()}
-                onMouseEnter={() => soundManager.playHover()}
-                aria-label="Email Parth"
-                className="p-2.5 bg-[#151719] hover:bg-[#1C1F23] border border-zinc-800 hover:border-amber-500/60 rounded text-amber-400 hover:text-amber-300 transition-all"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+            {subscribed ? (
+              <div className="bg-brand-spruce/90 border border-brand-mint/40 rounded-xl p-3.5 flex items-center gap-3 text-brand-mint">
+                <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                <span className="text-xs font-semibold">You're subscribed! Check your inbox soon.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="space-y-2">
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    required
+                    className="w-full bg-brand-spruce/60 border border-brand-700/80 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-brand-mint focus:ring-1 focus:ring-brand-mint transition-all"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-brand-mint hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm py-2.5 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                >
+                  <span>Subscribe to Insights</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </form>
+            )}
 
-              {/* Scroll to Top */}
-              <button
-                onClick={scrollToTop}
-                onMouseEnter={() => soundManager.playHover()}
-                aria-label="Return to top of page"
-                className="p-2.5 bg-gradient-to-r from-amber-600 to-amber-500 text-black rounded hover:from-amber-500 hover:to-yellow-500 transition-all shadow-md active:scale-95 cursor-pointer"
-                title="Return to Top"
-              >
-                <ChevronUp className="w-4 h-4 stroke-[3]" />
-              </button>
+            <div className="flex items-center gap-2 mt-4 text-[11px] text-slate-400">
+              <Sparkles className="w-3.5 h-3.5 text-brand-mint" />
+              <span>Strictly zero spam. Unsubscribe anytime.</span>
             </div>
-
-            <span className="text-[10px] text-zinc-400 uppercase tracking-wider">
-              [ RETURN TO TOP ]
-            </span>
           </div>
 
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-400 gap-3">
-          <div>
-            © 2026 Parth Nagarkar. All Rights Reserved.
-          </div>
-
-          <div className="flex items-center gap-4 text-[10px] tracking-widest text-zinc-500">
-            <span>GRID: 28.6139° N / 77.2090° E</span>
-            <span>TACTICAL OS v3.7</span>
+        {/* Bottom Bar: Copyright & Legal */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+          <p>© 2026 Grace & Grow. All rights reserved.</p>
+          <div className="flex items-center gap-6">
+            <Link to="/about" className="hover:text-brand-300 transition-colors">Privacy Policy</Link>
+            <Link to="/about" className="hover:text-brand-300 transition-colors">Terms of Service</Link>
+            <Link to="/contact" className="hover:text-brand-300 transition-colors">Client Support</Link>
           </div>
         </div>
-
       </div>
     </footer>
   );
